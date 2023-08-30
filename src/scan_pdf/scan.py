@@ -3,6 +3,15 @@ import logging
 import os
 import subprocess
 from functools import cmp_to_key
+from dotenv import load_dotenv
+
+load_dotenv()
+
+try:
+    printer_address = os.environ['PRINTER_ADDRESS']
+except KeyError:
+    printer_address = "hpaio:/net/OfficeJet_Pro_7740_series?ip=192.168.8.100"
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +37,7 @@ class Scanner(object):
         args = ['scanimage', '-b']
 
         # TODO: render it through variable
-        args += ["-d", "hpaio:/net/OfficeJet_Pro_7740_series?ip=192.168.8.100"]
+        args += ["-d", printer_address]
 
         color_mode = 'Gray'
         if options.color_mode == 'bw':
